@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 //
@@ -25,7 +26,7 @@ export default function SnakeGame() {
                 y: prev[0].y + direction.y
             };
 
-            
+
             if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE || newSnake.some(segment => segment.x === head.x && segment.y === head.y)) {
                 setIsGameOver(true);
                 clearInterval(moveInterval.current);
@@ -33,7 +34,7 @@ export default function SnakeGame() {
                 return prev;
             }
 
-            newSnake.unshift(head); 
+            newSnake.unshift(head);
             newSnake.pop();
             return newSnake;
         });
@@ -41,3 +42,40 @@ export default function SnakeGame() {
 
     }
 };
+ cosnt newSnake = [newHead, ...prev];
+
+newSnake.pop(); 
+
+return newSnake;
+});
+}
+
+useEffect (() => {
+    moveInterval.current = setInterval (() => {
+              if(!IsGameOver) moveSnake();
+            },200)
+return () => clearInterval (moveInterval,current);
+}, [direction]);
+
+const renderCell = (x,y) => {
+
+cosnt isSnake = snake.some (cell => cell.x === x && cell.y ===y)
+
+return(
+  <view
+       key={'${x}-${y}')
+       style= {[styles.cell, isSnake && styles.snake]}
+/>
+  };
+};
+
+cosnt renderGrid = () =>{
+  let rows = [];
+
+for (let y = 0;y < Grid_Size; y++){
+    let row = [];
+    for (let x; x < Grid_Size; x++){
+    row.push (renderCell(x,y));
+  }
+ row.push (<view key ={y}
+
