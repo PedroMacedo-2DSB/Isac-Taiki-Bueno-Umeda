@@ -1,81 +1,218 @@
+ import React from 'react';
+import { 
+  View, 
+  Text, 
+  Image, 
+  StyleSheet, 
+  TouchableOpacity 
+} from 'react-native';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-//
-
-const CELL_SIZE = 20;
-const GRID_SIZE = 15;
-
-// posição inicial
-const INITIAL_SNAKE = [{ x: 7, y: 7 }];
-
-const INITIAL_DIRECTION = { x: 0, y: -1 };
-
-export default function SnakeGame() {
-
-    const [snake, SetSnake] = useState(INITIAL_SNAKE);
-
-    const [direction, SetDirection] = useState(INITIAL_DIRECTION);
-    const [isGameOver, setIsGameOver] = useState(false);
-    const moveInterval = useRef(null);
-    function moveSnake() {
-        setSnake(prev => {
-            const newHead = {
-
-                x: prev[0].x + direction.x,
-                y: prev[0].y + direction.y
-            };
-
-
-            if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE || newSnake.some(segment => segment.x === head.x && segment.y === head.y)) {
-                setIsGameOver(true);
-                clearInterval(moveInterval.current);
-                Alert.alert("Fim de Jogo Meu Patrao", "Você Bateu na parede ou se mordeu!");
-                return prev;
-            }
-
-            newSnake.unshift(head);
-            newSnake.pop();
-            return newSnake;
-        });
-
-
-    }
-};
- cosnt newSnake = [newHead, ...prev];
-
-newSnake.pop(); 
-
-return newSnake;
-});
-}
-
-useEffect (() => {
-    moveInterval.current = setInterval (() => {
-              if(!IsGameOver) moveSnake();
-            },200)
-return () => clearInterval (moveInterval,current);
-}, [direction]);
-
-const renderCell = (x,y) => {
-
-cosnt isSnake = snake.some (cell => cell.x === x && cell.y ===y)
-
-return(
-  <view
-       key={'${x}-${y}')
-       style= {[styles.cell, isSnake && styles.snake]}
-/>
+// O nome do componente deve ser em PascalCase, como no repositório
+const ProfileCard = () => {
+  // 1. Definição dos dados do componente
+  const data = {
+    name: 'Ann Lovefully',
+    title: 'Designer, amante de gatos, leitora, fã de torta de maçã e entusiasta da natureza :)',
+    location: 'Hungary',
+    followers: '8.100',
+    following: '3.650',
+    // URLs de imagem (use um link real ou imagem local com 'require')
+    coverImageUrl: 'https://picsum.photos/400/120?random=2', 
+    avatarUrl: 'https://i.pravatar.cc/150?img=4', 
   };
+
+  // 2. Funções de Manipulação de Eventos
+  const handleFollowPress = () => {
+    console.log('Botão Follow Pressionado');
+    alert(`Começou a seguir ${data.name}`);
+  };
+  
+  const handleEmailPress = () => {
+    console.log('Botão E-mail Pressionado');
+    alert('Função de enviar e-mail ativada.');
+  };
+
+  // 3. Estrutura de Retorno (JSX)
+  return (
+    <View style={styles.cardContainer}>
+      {/* Área da Capa e Avatar */}
+      <View style={styles.coverArea}>
+        <Image 
+          source={{ uri: data.coverImageUrl }} 
+          style={styles.coverImage} 
+        />
+        <Image 
+          source={{ uri: data.avatarUrl }} 
+          style={styles.avatarImage} 
+        />
+      </View>
+
+      {/* Conteúdo Principal */}
+      <View style={styles.contentArea}>
+        <Text style={styles.nameText}>{data.name}</Text>
+        <Text style={styles.titleText}>{data.title}</Text>
+
+        {/* Informações de Contato (Localização / E-mail) */}
+        <View style={styles.contactRow}>
+          {/* Localização */}
+          <View style={styles.contactItem}>
+            <Text style={styles.iconSimples}>📍</Text>
+            <Text style={styles.contactText}>{data.location}</Text>
+          </View>
+          {/* E-mail (botão tocável) */}
+          <TouchableOpacity style={styles.contactItem} onPress={handleEmailPress}>
+            <Text style={styles.iconSimples}>✉️</Text> 
+            <Text style={[styles.contactText, styles.emailText]}>
+              Enviar E-mail
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Seção de Estatísticas (Followers/Following) */}
+        <View style={styles.statSection}>
+          {/* Stat Item: Followers */}
+          <View style={styles.statItem}>
+            <Text style={styles.statNumber}>{data.followers}</Text>
+            <Text style={styles.statLabel}>Followers</Text>
+          </View>
+          {/* Stat Item: Following */}
+          <View style={styles.statItem}>
+            <Text style={styles.statNumber}>{data.following}</Text>
+            <Text style={styles.statLabel}>Following</Text>
+          </View>
+        </View>
+
+        {/* Botão Principal */}
+        <TouchableOpacity 
+          style={styles.followButton} 
+          onPress={handleFollowPress}
+        >
+          <Text style={styles.buttonText}>
+            Follow
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 };
 
-cosnt renderGrid = () =>{
-  let rows = [];
+// 4. Estilos (StyleSheet.create) - como visto no repositório de referência
+const styles = StyleSheet.create({
+  cardContainer: {
+    backgroundColor: '#FFFFFF', // Fundo branco do cartão
+    borderRadius: 10,
+    marginHorizontal: 20, 
+    marginTop: 50,
+    elevation: 3, // Sombra Android
+    shadowColor: '#000', // Sombra iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    overflow: 'hidden', // Recorta a imagem de capa e avatar na borda
+  },
+  
+  // --- Área da Capa e Avatar ---
+  coverArea: {
+    height: 120, 
+    position: 'relative',
+  },
+  coverImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  avatarImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50, 
+    borderWidth: 4,
+    borderColor: '#FFFFFF',
+    position: 'absolute',
+    bottom: -50, 
+    left: '50%',
+    marginLeft: -50, // Centraliza
+  },
+  
+  // --- Área de Conteúdo ---
+  contentArea: {
+    padding: 20,
+    paddingTop: 60, // Espaço extra para o avatar
+    alignItems: 'center', // Centraliza o texto
+  },
+  nameText: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#333333',
+  },
+  titleText: {
+    fontSize: 14,
+    color: '#777777',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
 
-for (let y = 0;y < Grid_Size; y++){
-    let row = [];
-    for (let x; x < Grid_Size; x++){
-    row.push (renderCell(x,y));
-  }
- row.push (<view key ={y}
+  // --- Linha de Contato ---
+  contactRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 15,
+  },
+  contactItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 10, 
+  },
+  iconSimples: {
+    fontSize: 14,
+    marginRight: 5,
+  },
+  contactText: {
+    fontSize: 14,
+    color: '#777777',
+  },
+  emailText: {
+    color: '#3498db', // Cor de link
+  },
 
+  // --- Seção de Estatísticas ---
+  statSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    borderTopWidth: 1,
+    borderTopColor: '#EEEEEE',
+    paddingVertical: 15,
+    marginBottom: 20,
+  },
+  statItem: {
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  statNumber: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#333333',
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#777777',
+    marginTop: 2,
+  },
+
+  // --- Botão Principal ---
+  followButton: {
+    width: '100%',
+    paddingVertical: 12,
+    backgroundColor: '#2ecc71', // Cor verde de destaque
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
+
+export default ProfileCard;
